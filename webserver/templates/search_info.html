@@ -1,0 +1,146 @@
+<html>
+<title>flight home</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+* {box-sizing: border-box}
+
+/* Set height of body and the document to 100% */
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+}
+
+/* Style tab links */
+.tablink {
+    background-color: #1e90ff;
+    color: white;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px 280px;
+    font-size: 17px;
+    width: 25%;
+}
+
+.tablink:hover {
+    background-color: #6495ed;
+}
+
+/* Style the tab content (and add height:100% for full page content) */
+.tabcontent {
+    color: white;
+    display: none;
+    padding: 100px 20px;
+    height: 100%;
+}
+
+</style>
+</head>
+<body style="background-color:powderblue;">
+
+<!-- <button class="tablink" onclick="/search_info" id="defaultOpen">search flight</button>
+<button class="tablink" onclick="/record_trip">rate trip</button> -->
+<div class="container">
+  <button class="tablink"><a href="/search_info">search flight</a></button>
+  <button class="tablink"><a href="/detail_info">detail info</a></button>
+  <button class="tablink"><a href="/record_trip">rate trip</a></button>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<div class="container">
+  <form method="POST" action="/search_info_result">
+
+    <label for="departure">Departure City:</label>
+    <select id="departure" name="departure">
+      <option value="JFK">JFK</option>
+    </select>
+    <br/>
+    <br/>
+    <label for="arrival">Arrival City:</label>
+    <select id="arrival" name="arrival">
+      <option value="SFO">SFO</option>
+    </select>
+    <br/>
+    <!-- <label for="origin">Origin:</label>
+    <input type="origin" id="origin" placeholder="Enter Origin" name="origin">
+    <label for="dest">Destination:</label>
+    <input type="destination" id="dest" placeholder="Enter Destination" name="dest"> -->
+
+    <!-- <label for="ratingscore">Rating Score(order by):</label>
+    <select id="rating" name="rating">
+      <option value="overall">Overall</option>
+      <option value="valueformoney">Value For Money</option>
+      <option value="foodbeverages">Food and Beverages</option>
+      <option value="entertainment">Entertainment</option>
+      <option value="delay">Delay</option>
+      <option value="seatcomfortable">Seat Comfortable</option>
+      <option value="staffService">staffService</option>
+    </select> -->
+    <br/>
+    <br/>
+    <input type="submit" value="search">
+  </form>
+</div>
+<br/>
+
+<form action="/logout">
+  <input type="submit" value="log out">
+</form>
+<br/>
+
+<div class="w3-container w3-hover-shadow w3-center" style="weight:80%;">
+{% for n in data %}
+  <div class="w3-display-container w3-blue" style="height:50px;">
+      <div class="w3-display-left">{{n[0]}}</div>
+      <div class="w3-display-right">{{n[1]}}</div>
+  </div>
+
+  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
+      <div class="w3-display-left">Value For Money</div>
+      <div class="w3-display-right">{{n[2]}}</div>
+  </div>
+  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
+      <div class="w3-display-left">Food and Beverages</div>
+      <div class="w3-display-right">{{n[3]}}</div>
+  </div>
+  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
+      <div class="w3-display-left">Entertainment</div>
+      <div class="w3-display-right">{{n[4]}}</div>
+  </div>
+  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
+      <div class="w3-display-left">Delay</div>
+      <div class="w3-display-right">{{n[5]}}</div>
+  </div>
+  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
+      <div class="w3-display-left">Seat Comfortable</div>
+      <div class="w3-display-right">{{n[6]}}</div>
+  </div>
+  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
+      <div class="w3-display-left">staffService</div>
+      <div class="w3-display-right">{{n[7]}}</div>
+  </div>
+
+  <!-- <button onclick="document.getElementById('id01').style.display='block'" class="w3-blue">see details</button>
+  <div id="id01" class="w3-modal">
+    <div class="w3-modal-content">
+      <div class="w3-container">
+        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
+        <p>Some text. Some text. Some text.</p>
+        <p>Some text. Some text. Some text.</p>
+      </div>
+    </div>
+  </div> -->
+<br/>
+<br/>
+{% endfor %}
+
+</div>
+
+</body>
+</html>

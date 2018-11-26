@@ -1,0 +1,176 @@
+<html>
+<title>flight home</title>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+  * {box-sizing: border-box}
+
+  /* Set height of body and the document to 100% */
+  body, html {
+      height: 100%;
+      margin: 0;
+      font-family: Arial;
+  }
+
+  /* Style tab links */
+  .tablink {
+      background-color: #1e90ff;
+      color: white;
+      float: left;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 10px 420px;
+      font-size: 17px;
+      width: 25%;
+  }
+
+  .tablink:hover {
+      background-color: #6495ed;
+  }
+
+  /* Style the tab content (and add height:100% for full page content) */
+  .tabcontent {
+      color: white;
+      display: none;
+      padding: 100px 20px;
+      height: 100%;
+  }
+</style>
+</head>
+<body>
+
+<!-- <button class="tablink" onclick="/search_info" id="defaultOpen">search flight</button>
+<button class="tablink" onclick="/record_trip">rate trip</button> -->
+<div class="container">
+  <button class="tablink"><a href="/search_info">search flight</a></button>
+  <button class="tablink"><a href="/detail_info">detail info</a></button>
+  <button class="tablink"><a href="/record_trip">rate trip</a></button>
+</div>
+<br/>
+<br/>
+<br/>
+<br/>
+<div class="container">
+  <form method="POST" action="/add">
+    <label for="email">Email: </label>
+    <input type="email" id="email" placeholder="Enter email" name="email" required>
+    <br/>
+    <!-- <label for="airline">Airline Information: </label>
+    <input type="aircompany"  id="aircompany"  placeholder="Enter Airline Company" name="aircompany">
+    <input type="airalliance" id="airalliance" placeholder="Enter Airline Alliance" name="airalliance">
+    <br/>
+    <br/>
+    <label for="airport">Airport and Terminal Information: </label>
+    <input type="airportcode" id="airportcode" placeholder="Enter Airport Code" name="airportcode">
+    <input type="airportname"  id="airportname"  placeholder="Enter Airport Name" name="airportname">
+    <input type="state" id="state" placeholder="Enter State" name="state">
+    <input type="city" id="city" placeholder="Enter City" name="city">
+    <input type="terminal" id="terminal" placeholder="Enter Terminal" name="terminal">
+    <br/>
+    <br/>
+    <label for="aircraft">Aircraft Information: </label>
+
+    <input type="capacity"  id="capacity"  placeholder="Enter Capacity" name="airportname">
+    <br/> -->
+
+    <p>Please rate your trip: 5 is the highest, 1 is the lowest</p>
+
+    <label for="valueformoney">Value For Money: </label>
+    <select id="valueformoney" name="valueformoney">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <!-- <input type="text" id="valueformoney" name="valueformoney" required> -->
+    <br/>
+    <br/>
+    <label for="foodbeverages">Food and Beverages: </label>
+    <select id="foodbeverages" name="foodbeverages">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <!-- <input type="text" id="foodbeverages" name="foodbeverages" required> -->
+    <br/>
+    <br/>
+    <label for="entertainment">Entertainment: </label>
+    <select id="entertainment" name="entertainment">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <!-- <input type="text" id="entertainment" name="entertainment" required> -->
+    <br/>
+    <br/>
+    <label for="delay">Delay: </label>
+    <select id="delay" name="delay">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <!-- <input type="text" id="delay" name="delay"> -->
+    <br/>
+    <br/>
+    <label for="seatcomfortable">Seat Comfortable: </label>
+    <select id="seatcomfortable" name="seatcomfortable">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <!-- <input type="text" id="seatcomfortable" name="seatcomfortable" required> -->
+    <br/>
+    <br/>
+    <label for="staffservice">Staff Service: </label>
+    <select id="staffservice" name="staffservice">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <!-- <input type="text" id="staffservice" name="staffservice" required> -->
+    <br/>
+    <br/>
+    <br/>
+    <label for="comment">Comment: </label>
+    <input type="text" id="comment" placeholder="Please write your comment here..." name="comment" required>
+<!-- ################# FlightID -->
+    <br/>
+    <br/>
+    <!-- <label for="fight">Flight Information:</label> -->
+    <!-- <input type="flightnumber" id="flightnumber" placeholder="Enter Flight Number" name="flightnumber"> -->
+    <!-- ############ date format -->
+    <!-- <input type="date"  id="date"  placeholder="Enter Date:YYYY-MM-DD" name="date">
+    <input type="aircraftcode" id="aircraftcode" placeholder="Enter Aircraft Code" name="aircraftcode">
+    <input type="airlinecode" id="airlinecode" placeholder="Enter Airline Code" name="airlinecode">
+    <input type="flightnumber" id="flightnumber" placeholder="Enter Flight Number" name="flightnumber">
+    <input type="arrivalairport" id="arrivalairport" placeholder="Enter Arrival Airport" name="arrivalairport">
+    <input type="arrivalterminal" id="arrivalterminal" placeholder="Enter Arrival Terminal" name="arrivalterminal">
+    <input type="departureairport" id="departureairport" placeholder="Enter Departure Airport" name="departureairport">
+    <input type="departureterminal" id="departureterminal" placeholder="Enter Departure Terminal" name="departureterminal"> -->
+    <br/>
+    <br/>
+    <!-- <label for="origin">Origin:</label>
+    <input type="origin" id="origin" placeholder="Enter Origin" name="origin">
+    <label for="dest">Destination:</label>
+    <input type="destination" id="dest" placeholder="Enter Destination" name="dest"> -->
+
+    <input type="submit" value="Add">
+  </form>
+</div>
+
+
+</body>
+</html>
