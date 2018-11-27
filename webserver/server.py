@@ -49,17 +49,12 @@ DATABASEURI = "postgresql://"+DB_USER+":"+DB_PASSWORD+"@"+DB_SERVER+"/w4111"
 #
 engine = create_engine(DATABASEURI)
 
-email = ''
-# Here we create a test table and insert some values in it
-############### check if test table extist in cloud db
 engine.execute("""DROP TABLE IF EXISTS test;""")
 engine.execute("""CREATE TABLE IF NOT EXISTS test (
   id serial,
   name text
 );""")
 engine.execute("""INSERT INTO test(name) VALUES ('grace hopper'), ('alan turing'), ('ada lovelace');""")
-
-
 
 @app.before_request
 def before_request():
@@ -105,7 +100,8 @@ def verify():
           if password == result.fetchone()[0]:
               return render_template("search_info.html")
           else:
-              return "please enter valid email and password."
+              return  "please enter valid email and password, <br><a href = '/'></b>" + \
+                 "you can go back here</b></a>"
       else:
            return "You haven't signed up, <br><a href = '/'></b>" + \
               "please sign up first</b></a>"
@@ -114,18 +110,26 @@ def verify():
       g.conn.execute(text(cmd), name1 = email, name2 = password, name3 = 'f');
       return "You have registered successfully, <br><a href = '/'></b>" + \
          "please log in</b></a>"
-      # return redirect('search_info')
 
 
 @app.route('/logout')
 def logout():
-   # remove the username from the session if it is there
    email = ''
    return render_template("index.html")
 
 @app.route('/add', methods=['POST'])
 def add():
   email = request.form['email']
+
+  airlinecode = request.form['airlinecode']
+  flightnumber = request.form['flightnumber']
+  aircraftcode = request.form['aircraftcode']
+  date = request.form['date']
+  arrivalairport = request.form['arrivalairport']
+  arrivalterminal = request.form['arrivalterminal']
+  departureairport = request.form['departureairport']
+  departureterminal = request.form['departureterminal']
+
   comment = request.form['comment']
   valueformoney = request.form['valueformoney']
   foodbeverages = request.form['foodbeverages']
@@ -133,25 +137,87 @@ def add():
   delay = request.form['delay']
   seatcomfortable = request.form['seatcomfortable']
   staffservice = request.form['staffservice']
-  cmd = 'INSERT INTO travelrecord VALUES (:name1, :name2, :name3, :name4, :name5, :name6, :name7, :name8, :name9, :name10)';
-# ####################flightid
-  g.conn.execute(text(cmd), name1 = email, name2 =  2018102307, name3 = comment, name4 = valueformoney, name5 = foodbeverages, name6 = entertainment, name7 = delay, name8 = seatcomfortable, name9 = staffservice, name10 = 'f');
+
+  cmd_arr = 'SELECT count(*) from terminal where airportcode = :name1 and terminalname = :name2';
+  result_arr = g.conn.execute(text(cmd_arr), name1 = arrivalairport, name2 = arrivalterminal);
+  if result_arr.fetchone()[0] != 1:
+      return "Please enter a valid arrival airport and arrival terminal, <br><a href = '/record_trip'></b>" + \
+             "You can re-fill the form here</b></a>"
+  else:
+     cmd_dep = 'SELECT count(*) from terminal where airportcode = :name1 and terminalname = :name2';
+     result_dep = g.conn.execute(text(cmd_dep), name1 = departureairport, name2 = departureterminal);
+     if result_dep.fetchone()[0] != 1:
+         return "Please enter a valid departure airport and departure terminal, <br><a href = '/record_trip'></b>" + \
+                "You can re-fill the form here</b></a>"
+     else:
+         cmd_airline = 'SELECT count(*) from airline where airlinecode = :name1 ';
+         result_airline = g.conn.execute(text(cmd_airline), name1 = airlinecode);
+         if result_airline.fetchone()[0] != 1:
+             return "Please enter a valid airline code, <br><a href = '/record_trip'></b>" + \
+                    "You can re-fill the form here</b></a>"
+         else:
+            cmd_aircraft = 'SELECT count(*) from aircraft where aircraftcode = :name1 ';
+            result_aircraft = g.conn.execute(text(cmd_aircraft), name1 = aircraftcode);
+            if result_aircraft.fetchone()[0] != 1:
+                return "Please enter a valid aircraft code, <br><a href = '/record_trip'></b>" + \
+                       "You can re-fill the form here</b></a>"
+            else:
+               cmd_email = 'SELECT count(*) from user_indi where email = :name1 ';
+               result_email = g.conn.execute(text(cmd_email), name1 = email);
+               if result_email.fetchone()[0] != 1:
+                   return "Please enter a valid user email, <br><a href = '/record_trip'></b>" + \
+                          "You can re-fill the form here</b></a>"
+               else:
+                     cmd_id = 'SELECT count(*) from flight \
+                                where airlinecode = :name1 \
+                                    and flightnumber = :name2 \
+                                    and date = :name3 \
+                                    and arrivalairport = :name4 \
+                                    and arrivalterminal  = :name5 \
+                                    and departureairport = :name6 \
+                                    and departureterminal = :name7';
+                     result_id = g.conn.execute(text(cmd_id), name1 = airlinecode, name2= flightnumber, name3=date, name4=arrivalairport, name5=arrivalterminal, name6=departureairport, name7=departureterminal);
+                     if result_id.fetchone()[0] != 1:
+                         cmd_insert = 'INSERT into flight \
+                                    VALUES((select count(*) from flight)+1, \
+                                    :name1, :name2, :name3, :name4, :name5, :name6, :name7, :name8, :name9)';
+                         result_insert = g.conn.execute(text(cmd_insert), name1 = aircraftcode, name2 = airlinecode, name3= flightnumber, name4=arrivalairport, name5=arrivalterminal, name6=departureairport, name7=departureterminal, name8=date, name9='f');
+                         cmd_flightid = 'SELECT flightid from flight \
+                                        where airlinecode = :name1 \
+                                            and flightnumber = :name2 \
+                                            and date = :name3 \
+                                            and arrivalairport = :name4 \
+                                            and arrivalterminal  = :name5 \
+                                            and departureairport = :name6 \
+                                            and departureterminal = :name7';
+                         result_flightid = g.conn.execute(text(cmd_flightid), name1 = airlinecode, name2= flightnumber, name3=date, name4=arrivalairport, name5=arrivalterminal, name6=departureairport, name7=departureterminal);
+                         flightid = result_flightid.fetchone()[0]
+
+                         cmd = 'INSERT INTO travelrecord VALUES (:name1, :name2, :name3, :name4, :name5, :name6, :name7, :name8, :name9, :name10)';
+                         g.conn.execute(text(cmd), name1 = email, name2 =  flightid, name3 = comment, name4 = valueformoney, name5 = foodbeverages, name6 = entertainment, name7 = delay, name8 = seatcomfortable, name9 = staffservice, name10 = 'f')
+                     else:
+                         cmd_flightid = 'SELECT flightid from flight \
+                                        where airlinecode = :name1 \
+                                            and flightnumber = :name2 \
+                                            and date = :name3 \
+                                            and arrivalairport = :name4 \
+                                            and arrivalterminal  = :name5 \
+                                            and departureairport = :name6 \
+                                            and departureterminal = :name7';
+                         result_flightid = g.conn.execute(text(cmd_flightid), name1 = airlinecode, name2= flightnumber, name3=date, name4=arrivalairport, name5=arrivalterminal, name6=departureairport, name7=departureterminal);
+                         flightid = result_flightid.fetchone()[0]
+
+                         cmd = 'INSERT INTO travelrecord VALUES (:name1, :name2, :name3, :name4, :name5, :name6, :name7, :name8, :name9, :name10)';
+                         g.conn.execute(text(cmd), name1 = email, name2 =  flightid, name3 = comment, name4 = valueformoney, name5 = foodbeverages, name6 = entertainment, name7 = delay, name8 = seatcomfortable, name9 = staffservice, name10 = 'f')
   return "You have added your record successfully, <br><a href = '/record_trip'></b>" + \
-     "you can go back here</b></a>"
+     "please go back here</b></a>"
 
 
-# cursor = g.conn.execute("SELECT name FROM test")
-#   names = []
-#   for result in cursor:
-#     names.append(result['name'])  # can also be accessed using result[0]
-#   cursor.close()
 
-  context = dict(data = names)
 @app.route('/search_info_result', methods=['POST'])
 def search_info_result():
     departure = request.form['departure']
     arrival = request.form['arrival']
-    # rating = request.form['rating']
     cmd = 'SELECT AirCompany, \
                   (AVG(ValueForMoney)+AVG(FoodBeverages)+ AVG(Entertainment)+ AVG(Delay)+ AVG(SeatComfortable)+ AVG(StaffService))/6 as Overall, \
                   AVG(ValueForMoney) as ValueForMoney, \
@@ -164,10 +230,8 @@ def search_info_result():
             WHERE f.flightid = t.flightid AND a.AirlineCode = f.AirlineCode AND departureairport= :name1 AND arrivalairport = :name2 \
             GROUP BY f.AirlineCode, AirCompany \
             ORDER BY Overall DESC';
-            # ORDER BY Overall Desc
     cursor = g.conn.execute(text(cmd), name1 = departure, name2 = arrival);
     names = []
-    airline = []
     for result in cursor:
         info_one = [result[0],
                     round(result[1], 2),
@@ -177,14 +241,63 @@ def search_info_result():
                     round(result[5], 2),
                     round(result[6], 2),
                     round(result[7], 2)]
-        names.append(info_one)  # can also be accessed using result[0]
-        airline.append(result[0])
-    # print names
-    context = dict(data = names)
-    # print context
-    cursor.close()
-    return render_template("search_info.html", **context)
-  # return render_template("search_info.html")
+        names.append(info_one)
+    if names == []:
+        return "There is no record matching your criteria, <br><a href = '/search_info'></b>" + \
+             "you can redefine your search here.</b></a>"
+    else:
+        context = dict(data = names)
+        cursor.close()
+        return render_template("search_info.html", **context)
+
+
+
+@app.route('/search_detail', methods=['POST'])
+def search_detail():
+    departure = request.form['departure']
+    arrival = request.form['arrival']
+    airline = request.form['airline']
+    cmd = 'SELECT FlightNumber, \
+                ValueForMoney, FoodBeverages, Entertainment, Delay, SeatComfortable, StaffService, Comments, \
+                DepartureAirport, DepartureTerminal, apd.city, apd.state, \
+                ArrivalAirport, ArrivalTerminal, apa.city, apa.state, \
+                date, AirAlliance, Capacity \
+            FROM TravelRecord as t ,flight as f, airline as a, aircraft as af, airport as apa, airport as apd \
+            WHERE f.flightid = t.flightid AND a.AirlineCode = f.AirlineCode AND af.AircraftCode=f.AircraftCode \
+            AND apd.AirportCode = f.departureairport AND apa.AirportCode = f.ArrivalAirport \
+            AND departureairport = :name1 AND arrivalairport = :name2 AND AirCompany = :name3 \
+            ORDER BY FlightNumber DESC';
+    cursor = g.conn.execute(text(cmd), name1 = departure, name2 = arrival, name3 = airline);
+    names = []
+    for result in cursor:
+        info_one = [result[0],
+                    round(result[1], 2),
+                    round(result[2], 2),
+                    round(result[3], 2),
+                    round(result[4], 2),
+                    round(result[5], 2),
+                    round(result[6], 2),
+                    result[7],
+                    result[8],
+                    result[9],
+                    result[10],
+                    result[11],
+                    result[12],
+                    result[13],
+                    result[14],
+                    result[15],
+                    result[16],
+                    result[17],
+                    result[18],
+                    airline]
+        names.append(info_one)
+    if names == []:
+        return "There is no record matching your criteria, <br><a href = '/search_info'></b>" + \
+             "you can redefine your search here.</b></a>"
+    else:
+        context = dict(data = names)
+        cursor.close()
+        return render_template("detail_info.html", **context)
 
 @app.route('/search_info')
 def search_info():
@@ -197,14 +310,6 @@ def detail():
 @app.route('/record_trip')
 def record():
    return render_template("record_trip.html")
-
-
-
-# @app.route('/login')
-# def login():
-#     abort(401)
-#     this_is_never_executed()
-
 
 if __name__ == "__main__":
   import click

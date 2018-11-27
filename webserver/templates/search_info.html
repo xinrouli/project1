@@ -52,36 +52,30 @@ body, html {
 <br/>
 <br/>
 <br/>
-<br/>
+<p>Here is Search flight Page</p>
 <div class="container">
   <form method="POST" action="/search_info_result">
-
-    <label for="departure">Departure City:</label>
+    <label for="departure">Departure Airport:</label>
     <select id="departure" name="departure">
       <option value="JFK">JFK</option>
-    </select>
-    <br/>
-    <br/>
-    <label for="arrival">Arrival City:</label>
-    <select id="arrival" name="arrival">
       <option value="SFO">SFO</option>
+      <option value="LGA">LGA</option>
+      <option value="EWR">EWR</option>
+      <option value="ORD">ORD</option>
+      <option value="LAX">LAX</option>
     </select>
     <br/>
-    <!-- <label for="origin">Origin:</label>
-    <input type="origin" id="origin" placeholder="Enter Origin" name="origin">
-    <label for="dest">Destination:</label>
-    <input type="destination" id="dest" placeholder="Enter Destination" name="dest"> -->
+    <br/>
+    <label for="arrival">Arrival Airport:</label>
+    <select id="arrival" name="arrival">
+      <option value="JFK">JFK</option>
+      <option value="SFO">SFO</option>
+      <option value="LGA">LGA</option>
+      <option value="EWR">EWR</option>
+      <option value="ORD">ORD</option>
+      <option value="LAX">LAX</option>
+    </select>
 
-    <!-- <label for="ratingscore">Rating Score(order by):</label>
-    <select id="rating" name="rating">
-      <option value="overall">Overall</option>
-      <option value="valueformoney">Value For Money</option>
-      <option value="foodbeverages">Food and Beverages</option>
-      <option value="entertainment">Entertainment</option>
-      <option value="delay">Delay</option>
-      <option value="seatcomfortable">Seat Comfortable</option>
-      <option value="staffService">staffService</option>
-    </select> -->
     <br/>
     <br/>
     <input type="submit" value="search">
@@ -122,20 +116,10 @@ body, html {
       <div class="w3-display-right">{{n[6]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">staffService</div>
+      <div class="w3-display-left">Staff Service</div>
       <div class="w3-display-right">{{n[7]}}</div>
   </div>
 
-  <!-- <button onclick="document.getElementById('id01').style.display='block'" class="w3-blue">see details</button>
-  <div id="id01" class="w3-modal">
-    <div class="w3-modal-content">
-      <div class="w3-container">
-        <span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>
-        <p>Some text. Some text. Some text.</p>
-        <p>Some text. Some text. Some text.</p>
-      </div>
-    </div>
-  </div> -->
 <br/>
 <br/>
 {% endfor %}
