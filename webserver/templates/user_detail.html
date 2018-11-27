@@ -42,8 +42,6 @@ body, html {
 </head>
 <body style="background-color:powderblue;">
 
-<!-- <button class="tablink" onclick="/search_info" id="defaultOpen">search flight</button>
-<button class="tablink" onclick="/record_trip">rate trip</button> -->
 <div class="container">
   <button class="tablink"><a href="/search_info">search flight</a></button>
   <button class="tablink"><a href="/detail_info">detail info</a></button>
@@ -53,68 +51,14 @@ body, html {
 <br/>
 <br/>
 <br/>
-<p>Here is Detail Info Page</p>
+<p>Here is User Detail Page</p>
 <div class="container">
-  <form method="POST" action="/search_detail">
-
-    <label for="departure">Departure Airport:</label>
-    <select id="departure" name="departure">
-      <option value="JFK">JFK</option>
-      <option value="SFO">SFO</option>
-      <option value="LGA">LGA</option>
-      <option value="EWR">EWR</option>
-      <option value="ORD">ORD</option>
-      <option value="LAX">LAX</option>
-    </select>
+  <form method="POST" action="/search_user_detail">
+    <label for="uname"><b>Email</b></label>
+    <input class="w3-input" type="email" placeholder="Enter Email" name="email" required>
     <br/>
-    <br/>
-    <label for="arrival">Arrival Airport:</label>
-    <select id="arrival" name="arrival">
-      <option value="JFK">JFK</option>
-      <option value="SFO">SFO</option>
-      <option value="LGA">LGA</option>
-      <option value="EWR">EWR</option>
-      <option value="ORD">ORD</option>
-      <option value="LAX">LAX</option>
-    </select>
-    <br/>
-    <br/>
-    <label for="airline">Airline Company:</label>
-    <select id="airline" name="airline">
-      <option value="American Airlines">American Airlines</option>
-      <option value="Alaska Airlines">Alaska Airlines</option>
-      <option value="JetBlue Airways">JetBlue Airways</option>
-      <option value="Delta Airlines">Delta Airlines</option>
-      <option value="Atlantic Southeast Airlines">Atlantic Southeast Airlines</option>
-      <option value="Frontier Airlines">Frontier Airlines</option>
-      <option value="Hawaiian Airlines">Hawaiian Airlines</option>
-      <option value="American Eagle Airlines">American Eagle Airlines</option>
-      <option value="Spirit Air Lines">Spirit Air Lines</option>
-      <option value="SkyWest Airlines">SkyWest Airlines</option>
-      <option value="US Airways">US Airways</option>
-      <option value="United Air Lines">United Air Lines</option>
-      <option value="Virgin America">Virgin America</option>
-      <option value="Southwest Airlines">Southwest Airlines</option>
-    </select>
-    <br/>
-
-
-    <!-- <label for="origin">Origin:</label>
-    <input type="origin" id="origin" placeholder="Enter Origin" name="origin">
-    <label for="dest">Destination:</label>
-    <input type="destination" id="dest" placeholder="Enter Destination" name="dest"> -->
-
-    <!-- <label for="ratingscore">Rating Score(order by):</label>
-    <select id="rating" name="rating">
-      <option value="overall">Overall</option>
-      <option value="valueformoney">Value For Money</option>
-      <option value="foodbeverages">Food and Beverages</option>
-      <option value="entertainment">Entertainment</option>
-      <option value="delay">Delay</option>
-      <option value="seatcomfortable">Seat Comfortable</option>
-      <option value="staffService">staffService</option>
-    </select> -->
-    <br/>
+    <label for="psw"><b>Password</b></label>
+    <input class="w3-input" type="password" placeholder="Enter Password" name="password" required>
     <br/>
     <input type="submit" value="search">
   </form>
@@ -129,87 +73,87 @@ body, html {
 <div class="w3-container w3-hover-shadow w3-center" style="weight:80%;">
 {% for n in data %}
   <div class="w3-display-container w3-blue" style="height:50px;">
-      <div class="w3-display-left">Flight Number</div>
+      <div class="w3-display-left">Air Company</div>
       <div class="w3-display-right">{{n[0]}}</div>
+  </div>
+  <div class="w3-display-container w3-white w3-hover-blue" style="height:50px;">
+      <div class="w3-display-left">Flight Number</div>
+      <div class="w3-display-right">{{n[1]}}</div>
   </div>
 
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
       <div class="w3-display-left">Value For Money</div>
-      <div class="w3-display-right">{{n[1]}}</div>
-  </div>
-  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Food and Beverages</div>
       <div class="w3-display-right">{{n[2]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Entertainment</div>
+      <div class="w3-display-left">Food and Beverages</div>
       <div class="w3-display-right">{{n[3]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Delay</div>
+      <div class="w3-display-left">Entertainment</div>
       <div class="w3-display-right">{{n[4]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Seat Comfortable</div>
+      <div class="w3-display-left">Delay</div>
       <div class="w3-display-right">{{n[5]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Staff Service</div>
+      <div class="w3-display-left">Seat Comfortable</div>
       <div class="w3-display-right">{{n[6]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Comments</div>
+      <div class="w3-display-left">Staff Service</div>
       <div class="w3-display-right">{{n[7]}}</div>
+  </div>
+  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
+      <div class="w3-display-left">Comments</div>
+      <div class="w3-display-right">{{n[8]}}</div>
   </div>
 
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
       <div class="w3-display-left">Departure Airport</div>
-      <div class="w3-display-right">{{n[8]}}</div>
-  </div>
-  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Departure Terminal</div>
       <div class="w3-display-right">{{n[9]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Departure City</div>
+      <div class="w3-display-left">Departure Terminal</div>
       <div class="w3-display-right">{{n[10]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Departure State</div>
+      <div class="w3-display-left">Departure City</div>
       <div class="w3-display-right">{{n[11]}}</div>
+  </div>
+  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
+      <div class="w3-display-left">Departure State</div>
+      <div class="w3-display-right">{{n[12]}}</div>
   </div>
 
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
       <div class="w3-display-left">Arrival Airport</div>
-      <div class="w3-display-right">{{n[12]}}</div>
-  </div>
-  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Arrival Terminal</div>
       <div class="w3-display-right">{{n[13]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Arrival City</div>
+      <div class="w3-display-left">Arrival Terminal</div>
       <div class="w3-display-right">{{n[14]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Arrival State</div>
+      <div class="w3-display-left">Arrival City</div>
       <div class="w3-display-right">{{n[15]}}</div>
+  </div>
+  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
+      <div class="w3-display-left">Arrival State</div>
+      <div class="w3-display-right">{{n[16]}}</div>
   </div>
 
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
       <div class="w3-display-left">Date</div>
-      <div class="w3-display-right">{{n[16]}}</div>
-  </div>
-  <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Air Alliance</div>
       <div class="w3-display-right">{{n[17]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Aircraft Capacity</div>
+      <div class="w3-display-left">Air Alliance</div>
       <div class="w3-display-right">{{n[18]}}</div>
   </div>
   <div class="w3-display-container w3-white w3-hover-blue" style="height:30px;">
-      <div class="w3-display-left">Airline Company</div>
+      <div class="w3-display-left">Aircraft Capacity</div>
       <div class="w3-display-right">{{n[19]}}</div>
   </div>
 

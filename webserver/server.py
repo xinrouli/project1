@@ -250,8 +250,6 @@ def search_info_result():
         cursor.close()
         return render_template("search_info.html", **context)
 
-
-
 @app.route('/search_detail', methods=['POST'])
 def search_detail():
     departure = request.form['departure']
@@ -299,6 +297,65 @@ def search_detail():
         cursor.close()
         return render_template("detail_info.html", **context)
 
+@app.route('/search_user_detail', methods=['POST'])
+def search_user_detail():
+    email = request.form['email']
+    password = request.form['password']
+    cmd_check = 'SELECT count(*) from user_indi where email = (:name1)';
+    result_check = g.conn.execute(text(cmd_check), name1 = email);
+    if result_check.fetchone()[0] == 1:
+        cmd_pass = 'SELECT password FROM user_indi WHERE email = (:name1)';
+        result_pass = g.conn.execute(text(cmd_pass), name1 = email);
+        if password == result_pass.fetchone()[0]:
+            cmd = 'SELECT AirCompany,FlightNumber, \
+                            ValueForMoney, FoodBeverages, Entertainment, Delay, SeatComfortable, StaffService, Comments, \
+                            DepartureAirport, DepartureTerminal, apd.city, apd.state, \
+                            ArrivalAirport, ArrivalTerminal, apa.city, apa.state, \
+                            date, AirAlliance, Capacity \
+                        FROM TravelRecord as t ,flight as f, airline as a, aircraft as af, airport as apa, airport as apd, user_indi as u \
+                        WHERE t.email=u.email AND u.password = :name1 AND u.email = :name2 \
+                        AND f.flightid = t.flightid AND a.AirlineCode = f.AirlineCode AND af.AircraftCode=f.AircraftCode \
+                        AND apd.AirportCode = f.departureairport AND apa.AirportCode = f.ArrivalAirport \
+                        ORDER BY FlightNumber DESC';
+            cursor = g.conn.execute(text(cmd), name1 = password, name2 = email);
+            names = []
+            for result in cursor:
+                info_one = [result[0],
+                            result[1],
+                            round(result[2], 2),
+                            round(result[3], 2),
+                            round(result[4], 2),
+                            round(result[5], 2),
+                            round(result[6], 2),
+                            round(result[7], 2),
+                            result[8],
+                            result[9],
+                            result[10],
+                            result[11],
+                            result[12],
+                            result[13],
+                            result[14],
+                            result[15],
+                            result[16],
+                            result[17],
+                            result[18],
+                            result[19]]
+                names.append(info_one)
+            if names == []:
+                return "You have add any flight record yet, <br><a href = '/record_trip'></b>" + \
+                     "you can add your record here.</b></a>"
+            else:
+                context = dict(data = names)
+                cursor.close()
+                return render_template("user_detail.html", **context)
+        else:
+            return  "please enter valid email and password, <br><a href = '/user_detail'></b>" + \
+               "you can go back here</b></a>"
+    else:
+        return "You haven't signed up this email yet, <br><a href = '/'></b>" + \
+              "you can sign up this email here</b></a>"
+
+
 @app.route('/search_info')
 def search_info():
   return render_template("search_info.html")
@@ -310,6 +367,10 @@ def detail():
 @app.route('/record_trip')
 def record():
    return render_template("record_trip.html")
+
+@app.route('/user_detail')
+def user_detail():
+  return render_template("user_detail.html")
 
 if __name__ == "__main__":
   import click
