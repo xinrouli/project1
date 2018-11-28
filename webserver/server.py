@@ -37,7 +37,7 @@ app = Flask(__name__, template_folder=tmpl_dir)
 
 # Use the DB credentials you received by e-mail
 DB_USER = "xl2685"
-DB_PASSWORD = "43q85ei8"
+DB_PASSWORD = "XXXXXX"
 
 DB_SERVER = "w4111.cisxo09blonu.us-east-1.rds.amazonaws.com"
 
